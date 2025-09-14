@@ -1,0 +1,51 @@
+# Compose file version - tells Docker which features are available
+version: '3.8'
+
+# Services section - each service is a container
+services:
+  # Our main AI service
+  ciryx-vibe:
+    # Build from Dockerfile in current directory (instead of pulling pre-made image)
+    build:
+      context: .              # Use current directory
+      dockerfile: Dockerfile  # Use our custom Dockerfile
+    
+    # Container name (easier to identify)
+    container_name: ciryx-vibe-api
+    
+    # Port mapping: host_port:container_port
+    ports:
+      - "5000:5000"  # Access via http://localhost:5000
+    
+    # Environment variables passed to container
+    environment:
+      - FLASK_ENV=production     # Run Flask in production mode
+      - PYTHONUNBUFFERED=1       # See logs immediately
+    
+    # Persistent storage - data survives container restarts
+    volumes:
+      - ./models:/app/models     # Cache downloaded AI models locally
+      - ./logs:/app/logs         # Store logs on host machine
+    
+    # Restart policy - keep service running
+    restart: unless-stopped
+    
+    # Health monitoring - Docker checks if service is working
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s    # Check every 30 seconds
+      timeout: 10s     # Wait 10 seconds for response
+      retries: 3       # Try 3 times before marking unhealthy
+      start_period: 60s # Wait 60 seconds before first check (model loading time)
+
+# Named volumes for better management
+volumes:
+  models:
+    driver: local  # Store on local disk
+  logs:
+    driver: local
+
+# Custom network for our services
+networks:
+  default:
+    name: ciryx-vibe-network

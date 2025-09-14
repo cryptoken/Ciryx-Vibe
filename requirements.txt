@@ -1,0 +1,27 @@
+# WEB FRAMEWORK - The foundation of our API
+Flask==2.3.3          # Main web framework for our REST API
+Werkzeug==2.3.7        # Flask's underlying WSGI toolkit
+
+# AI/ML CORE - The brain of our sentiment analysis
+torch==2.0.1           # PyTorch - deep learning framework (big download ~2GB)
+transformers==4.33.2   # Hugging Face library - loads pre-trained AI models
+tokenizers==0.13.3     # Fast text processing for AI models
+
+# HTTP & NETWORKING - For API communication
+requests==2.31.0       # HTTP client library
+urllib3==2.0.4         # HTTP connection pooling
+
+# DATA PROCESSING - Handle numbers and data
+numpy==1.24.3          # Mathematical operations (required by torch)
+pandas==2.0.3          # Data manipulation (useful for batch processing)
+
+# PRODUCTION TOOLS - For real business deployment
+gunicorn==21.2.0       # Production WSGI server (better than Flask dev server)
+python-dotenv==1.0.0   # Load environment variables from .env files
+
+# MONITORING - Keep track of performance
+psutil==5.9.5          # System resource monitoring
+
+# DEVELOPMENT (optional but useful)
+pytest==7.4.0         # Testing framework
+pytest-flask==1.2.0   # Flask-specific testing tools
